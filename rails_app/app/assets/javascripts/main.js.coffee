@@ -1,12 +1,8 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+window.fileSystem = new FileSystem()
+window.explorer = new Explorer()
 
-client = new Dropbox.Client(key: 'ka8heojsz0ho4is')
+window.handleClientLoad = () ->
+  googleDriveClient = new GoogleDriveClient(GOOGLE_DRIVE_CLIENT_ID, GOOGLE_DRIVE_SCOPES)
+  googleDriveClient.checkAuth()
 
-client.authenticate
-  interactive: false
-  , (error) ->
-    alert "Authentication error: " + error  if error
-
-client.isAuthenticated()
+  dropboxClient = new DropboxClient(DROPBOX_DRIVE_KEY)

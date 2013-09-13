@@ -13,10 +13,20 @@
 //= require_self
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+// require turbolinks
+
+//  Dropbox SDK
 //= require dropbox-datastores-0.1.0-b6
+
+//  Cumulus Module
+//= require explorer
+//= require file_system
+//= require api
 //= require main
+
+//= require google-drive-client
 
 //walnut.wafflestudio.net:3301
 var GOOGLE_DRIVE_CLIENT_ID = '740796495805.apps.googleusercontent.com';
 var GOOGLE_DRIVE_SCOPES = 'https://www.googleapis.com/auth/drive';
+var DROPBOX_DRIVE_KEY = 'ka8heojsz0ho4is';
