@@ -38,6 +38,7 @@
       };
     }
     listFiles();
+    getUserInfo();
   }
 
   /**
@@ -48,6 +49,17 @@
   function loadApi(callback) {
     gapi.client.load('drive', 'v2', function() {
       callback()
+    });
+  }
+
+  function getUserInfo() {
+    var req = gapi.client.request({
+      'path': '/drive/v2/about',
+      'method': 'GET'
+    });
+    req.execute(function(data) {
+      $('#user-info').append(data.name);
+      console.log(data.user);
     });
   }
 
@@ -79,6 +91,9 @@
   <h2 class="form-authorize-heading">Please authorize</h2>
   <button id="btn-authorize" class="btn btn-lg btn-primary btn-block" type="submit">Authorize</button>
 </form>
+
+<div id="user-info">
+</div>
 
 <table class="table table-bordered">
   <thead>
