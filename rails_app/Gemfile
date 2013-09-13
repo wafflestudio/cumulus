@@ -44,3 +44,5 @@ end
 
 # Development Env.
 gem 'thin'
+gem 'therubyracer'
+gem 'less-rails-bootstrap'

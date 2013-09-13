@@ -13,4 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require dropbox-datastores-0.1.0-b6
+//= require main
 //= require_self
