@@ -67,8 +67,8 @@
         $('<td>').html(index).appendTo(tr);
         $('<td>').html(item.mimeType).appendTo(tr);
         $('<td>').html(item.title).appendTo(tr);
-        $('<td>').html($('<a>').text('Preview').attr('href', item.webContentLink)).appendTo(tr);
-        $('<td>').html($('<a>').text('Link').attr('href', item.alternateLink)).appendTo(tr);
+        $('<td>').html($('<a>').text('Link').attr('href', item.webContentLink)).appendTo(tr);
+        $('<td>').html($('<a>').text('Preview').attr('href', item.alternateLink)).appendTo(tr);
       }
     });
   }
@@ -86,8 +86,8 @@
       <th>#</th>
       <th>File Type</th>
       <th>File Name</th>
-      <th>Preview Link</th>
       <th>Direct Link</th>
+      <th>Preview Link</th>
     </tr>
   </thead>
   <tbody id="filelist">
