@@ -10,9 +10,13 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require_self
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
 //= require dropbox-datastores-0.1.0-b6
 //= require main
-//= require_self
+
+//walnut.wafflestudio.net:3301
+var GOOGLE_DRIVE_CLIENT_ID = '740796495805.apps.googleusercontent.com';
+var GOOGLE_DRIVE_SCOPES = 'https://www.googleapis.com/auth/drive';
