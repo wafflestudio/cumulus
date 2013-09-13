@@ -1,7 +1,21 @@
+  function getUserInfo() {
+    var req = gapi.client.request({
+      'path': '/drive/v2/about',
+      'method': 'GET'
+    });
+    req.execute(function(data) {
+      $('#user-info').append(data.name);
+      console.log(data.user);
+    });
+  }
+
 <form id="form-authorize" class="form-authorize">
   <h2 class="form-authorize-heading">Please authorize</h2>
   <button id="btn-authorize" class="btn btn-lg btn-primary btn-block" type="submit">Authorize</button>
 </form>
+
+<div id="user-info">
+</div>
 
 <table id="explorer" class="table table-bordered">
   <thead>

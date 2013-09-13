@@ -23,20 +23,22 @@ class @GoogleDriveClient extends StorageClient
         fileSystem.push(file)
       explorer.render()
 
-  getAbout: () ->
+  getUserInfo: () ->
     request = gapi.client.request(
       path: "/drive/v2/about"
       method: "GET"
     )
     request.execute (data) =>
       console.log data
+      $('#user-info').append data.name
       fileSystem.rootId = data.rootFolderId
       @listFiles(data.rootFolderId)
+    
 
   handleAuthResult: (authResult) =>
     authButton = document.getElementById("btn-authorize")
     authButton.style.display = "none"
-    @getAbout()
+    @getUserInfo()
     unless authResult and not authResult.error
       authButton.style.display = "block"
       authButton.onclick = ->
