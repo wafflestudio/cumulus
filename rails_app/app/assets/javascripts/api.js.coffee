@@ -3,7 +3,6 @@ class @StorageClient
 
 class @GoogleDriveClient extends StorageClient
   constructor: (clientId, scopes) ->
-    super()
     @clientId = clientId
     @scopes = scopes
     console.log "GoogleDrive(#{@clientId}, #{@scopes})"
@@ -39,26 +38,28 @@ class @GoogleDriveClient extends StorageClient
   handleAuthResult: (authResult) =>
     authButton = document.getElementById("btn-authorize")
     authButton.style.display = "none"
-    @getUserInfo()
+    console.log authResult
+    if authResult
+      @getUserInfo()
     unless authResult and not authResult.error
       authButton.style.display = "block"
-      authButton.onclick = ->
+      authButton.onclick = =>
         gapi.auth.authorize
           client_id: @clientId
           scope: @scopes
           immediate: false
         , @handleAuthResult
 
-  checkAuth: () ->
+  checkAuth: () =>
+    console.log @clientId, @scopes
     gapi.auth.authorize
       client_id: @clientId
       scope: @scopes
-      immediate: true
+      immediate: false
     , @handleAuthResult
 
 class @DropboxClient extends StorageClient
   constructor: (key) ->
-    super()
     @client = new Dropbox.Client(key: key)
 
   authorize: () ->
