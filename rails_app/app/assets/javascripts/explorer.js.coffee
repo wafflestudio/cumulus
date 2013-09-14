@@ -114,8 +114,8 @@ class @Tab
       for file in files
         console.log intersection(@paths, file.parentIds)
         filesInDirectory.push(file) unless intersection(@paths, file.parentIds).empty()
-<<<<<<< HEAD
-    @renderDirectory(filesInDirectory)
+
+    @displayDirectory(filesInDirectory)
     audiojs.events.ready ->
       as = audiojs.createAll()
     $(".modal").on "hidden.bs.modal", ->
