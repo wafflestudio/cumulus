@@ -45,22 +45,22 @@ class @Tab
 
     if not @isRoot()
       $tr = $('<tr>').attr('file-id', @parentPath)
-      $('<td>').html("").appendTo $tr
-      $('<td>').html("").appendTo $tr
       $title = $('<td>').html($('<a>').attr('href', '#' + @parentPath).text(".."))
       $title.appendTo $tr
-      $('<td>').html("").appendTo $tr
       $('<td>').html("").appendTo $tr
       $tr.appendTo body
 
     for file in files
       $tr = $('<tr>').attr('file-id', file.id)
-      $('<td class="id">').html(file.id).appendTo $tr
-      $('<td class="mimetype">').html(file.typeIcon()).appendTo $tr
-      $title = $('<td class="title">').html($('<a>').attr('href', '#' + file.id).text(file.title))
+      if file.isDirectory()
+        fileLink = '#' + file.id
+      else
+        fileLink = file.previewUrl
+      $title = $('<td class="title">').html($('<a>').attr('href', fileLink).html(file.typeIcon()).append(' ' + file.title))
       $title.appendTo $tr
-      $('<td class"downloadurl">').html($('<a>').attr('href', file.downloadUrl).text('Link')).appendTo $tr
-      $('<td class="previewurl">').html($('<a>').attr('href', file.previewUrl).text('Preview')).appendTo $tr
+      if(file.downloadUrl)
+        $('<td class="downloadurl">').html($('<a>').attr('href', file.downloadUrl).html('<span class="glyphicon glyphicon-cloud-download"></span>')).appendTo $tr
+      else $('<td class="downloadurl">').appendTo $tr
       $tr.appendTo body
 
       if file.isDirectory()

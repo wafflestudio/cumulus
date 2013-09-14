@@ -11,6 +11,17 @@
  *= require twitter/bootstrap
  *= require_self
  */
+.glyphicon {
+  color: black;
+}
+.container {
+  width: 800px;
+}
+
+.downloadurl {
+  width: 130px;
+}
+
 /*
 body {
   padding-top: 40px;

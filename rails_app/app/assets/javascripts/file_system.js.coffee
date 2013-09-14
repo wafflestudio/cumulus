@@ -59,4 +59,4 @@ class @File
     else if this.isForm()
       addType 'glyphicon-list-alt'
     else
-      @mimeType
+      addType 'glyphicon-question-sign'
