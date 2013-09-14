@@ -1,6 +1,6 @@
 class @Explorer
   constructor: () ->
-    @tabs = [new Tab(fileSystem.rootId)]
+    @tabs = [new Tab(fileSystem.rootIds)]
 
   currentTab: () ->
     currentTab
@@ -59,7 +59,7 @@ class @Tab
       $('<td>').html(file.mimeType).appendTo $tr
       $title = $('<td>').html($('<a>').attr('href', '#' + file.id).text(file.title))
       $title.appendTo $tr
-      $('<td>').html($('<a>').attr('href', file.directUrl).text('Link')).appendTo $tr
+      $('<td>').html($('<a>').attr('href', file.downloadUrl).text('Link')).appendTo $tr
       $('<td>').html($('<a>').attr('href', file.previewUrl).text('Preview')).appendTo $tr
       $tr.appendTo body
 

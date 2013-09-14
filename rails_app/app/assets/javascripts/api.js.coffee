@@ -18,7 +18,7 @@ class @GoogleDriveClient extends StorageClient
       console.log data.items
       for item in data.items
         item.parents = item.parents.map (parent) -> parent.id
-        file = new File(item.id, item.parents, item.parents.length is 0 or rootFolderId in item.parents, item.mimeType, item.title, item.webContentLink)
+        file = new File(item.id, item.parents, item.parents.length is 0 or rootFolderId in item.parents, item.mimeType, item.title, item.webContentLink, item.alternateLink)
         fileSystem.push(file)
       explorer.render()
 
@@ -84,4 +84,3 @@ class @DropboxClient extends StorageClient
 
   isAuthorized: () ->
     @client.isAuthenticated()
-
