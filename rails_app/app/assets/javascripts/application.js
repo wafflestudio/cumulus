@@ -21,6 +21,7 @@
 // require DropboxAPI/dropbox-datastores-0.1.0-b6
 
 //  Cumulus Module
+//= require common
 //= require explorer
 //= require file_system
 //= require api

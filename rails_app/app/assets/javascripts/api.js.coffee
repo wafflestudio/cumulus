@@ -14,8 +14,8 @@ class @GoogleDriveClient extends StorageClient
       params: {'maxResults':1000}
     )
     request.execute (data) ->
-      console.log data
-      console.log data.items
+      #console.log data
+      #console.log data.items
       for item in data.items
         item.parents = item.parents.map (parent) -> parent.id
         file = new File(item.id, item.parents, item.parents.length is 0 or rootFolderId in item.parents, item.mimeType, item.title, item.webContentLink, item.alternateLink)
@@ -29,10 +29,10 @@ class @GoogleDriveClient extends StorageClient
     )
     request.execute (data) =>
       console.log data
-      $('#user-info').append data.name
-      fileSystem.rootId = data.rootFolderId
+      $('#user-info').append "GoogleDrive: #{data.name} "
+      fileSystem.addRoot(data.rootFolderId)
       @listFiles(data.rootFolderId)
-    $('#form-authorize').remove()
+    $('#form-authorize').hide()
     
 
   handleAuthResult: (authResult) =>
@@ -55,7 +55,7 @@ class @GoogleDriveClient extends StorageClient
     gapi.auth.authorize
       client_id: @clientId
       scope: @scopes
-      immediate: false
+      immediate: true
     , @handleAuthResult
 
 class @DropboxClient extends StorageClient
@@ -65,21 +65,32 @@ class @DropboxClient extends StorageClient
   authorize: () ->
     @client.authenticate (error, data) =>
         return console.log error if error
-        $('#form-authorize').remove()
+        console.log data
+        $('#form-authorize').hide()
+        fileSystem.addRoot("/")
         @listFiles('/')
         @client.getAccountInfo (error, userInfo) =>
           return @showError(error) if error
-          $('#user-info').text userInfo.name
+          $('#user-info').append "Dropbox: #{userInfo.name} "
 
   listFiles: (path) ->
     @client.readdir path, (error, entries, dir_stat, entry_stats) =>
-      return console.log error if error
+      if error
+        console.log error
+        if error.status is 429
+          @client.authenticate (error, data) =>
+            console.log data
+            @listFiles(path)
+        else
+          return error
+          
       console.log dir_stat
       console.log entry_stats
           
       for entry in entry_stats
-        file = new File(entry.path, path, true, entry.mimeType, entry.name, null)
+        file = new File(entry.path, path, path is "/", entry.mimeType, entry.name, null)
         fileSystem.push(file)
+
       explorer.render()
 
   isAuthorized: () ->

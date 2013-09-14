@@ -5,8 +5,9 @@ class @FileSystem
     @filesIndex = {}
 
   push: (file) ->
-    @files.push(file)
-    @filesIndex[file.id] = @files.length - 1
+    unless @filesIndex[file.id]
+      @files.push(file)
+      @filesIndex[file.id] = @files.length - 1
   
   addRoot: (rootId) ->
     @rootIds.push(rootId)
@@ -19,7 +20,10 @@ class @FileSystem
 class @File
   constructor: (id, parentIds, isRoot, mimeType, title, downloadUrl, previewUrl) ->
     @id = id
-    @parentIds = parentIds
+    if parentIds instanceof Array
+      @parentIds = parentIds
+    else
+      @parentIds = [parentIds]
     @isRoot = isRoot
 
     @mimeType = mimeType
