@@ -1,0 +1,19 @@
+{
+	"name":"Cumulus",
+	"description":"Integrated Storage",
+	"version":"1.0",
+	"manifest_version":2,
+	"icons":{
+		"19":"icon-19x18.png",
+		"48":"icon-48x48.png",
+		"128":"icon-128x128.png"
+	},
+	"app": {
+		"launch": {
+			"local_path": "index.html"
+		}
+	},
+	"content_security_policy": "script-src 'self' https://apis.google.com 'unsafe-eval'; object-src 'self'; img-src *; frame-src *;  ",
+	"permissions": ["tabs", "storage",
+	    "webRequest", "webRequestBlocking", "http://*/*", "https://*/*"]
+}

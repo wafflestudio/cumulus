@@ -23,6 +23,10 @@
   width: 130px;
 }
 
+#user-info li {
+  list-style: none;
+}
+
 /*
 body {
   padding-top: 40px;
