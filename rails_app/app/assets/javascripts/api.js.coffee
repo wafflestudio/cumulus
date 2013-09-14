@@ -36,7 +36,6 @@ class @GoogleDriveClient extends StorageClient
       fileSystem.addRoot(data.rootFolderId)
       @listFiles(data.rootFolderId)
     $('#form-authorize').hide()
-    
 
   handleAuthResult: (authResult) =>
     authButton = document.getElementById("btn-authorize")
@@ -78,6 +77,12 @@ class @DropboxClient extends StorageClient
           $li.append $('<span>').attr('class', 'glyphicon glyphicon-hdd')
           $li.append $('<span>').text(" Dropbox: #{userInfo.name}")
           $('#user-info').append $li
+
+  getDownloadLink: (path) =>
+    @client.makeUrl path, {download: true}, (error, data) =>
+      return console.log error if error
+      console.log data.url
+      alert "api.js.coffee#84 #{data.url}"
 
   listFiles: (path) ->
     @client.readdir path, (error, entries, dir_stat, entry_stats) =>
