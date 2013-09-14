@@ -29,6 +29,7 @@
 //= require google-drive-client
 
 //walnut.wafflestudio.net:3301
+//var GOOGLE_DRIVE_CLIENT_ID = '740796495805.apps.googleusercontent.com';
 //walnut.wafflestudio.net:4333
 var GOOGLE_DRIVE_CLIENT_ID = '149164205354.apps.googleusercontent.com';
 var GOOGLE_DRIVE_SCOPES = 'https://www.googleapis.com/auth/drive';
