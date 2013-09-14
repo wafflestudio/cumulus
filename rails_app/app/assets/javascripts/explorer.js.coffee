@@ -55,12 +55,12 @@ class @Tab
 
     for file in files
       $tr = $('<tr>').attr('file-id', file.id)
-      $('<td>').html(file.id).appendTo $tr
-      $('<td>').html(file.mimeType).appendTo $tr
-      $title = $('<td>').html($('<a>').attr('href', '#' + file.id).text(file.title))
+      $('<td class="id">').html(file.id).appendTo $tr
+      $('<td class="mimetype">').html(file.typeIcon()).appendTo $tr
+      $title = $('<td class="title">').html($('<a>').attr('href', '#' + file.id).text(file.title))
       $title.appendTo $tr
-      $('<td>').html($('<a>').attr('href', file.directUrl).text('Link')).appendTo $tr
-      $('<td>').html($('<a>').attr('href', file.previewUrl).text('Preview')).appendTo $tr
+      $('<td class"directurl">').html($('<a>').attr('href', file.directUrl).text('Link')).appendTo $tr
+      $('<td class="previewurl">').html($('<a>').attr('href', file.previewUrl).text('Preview')).appendTo $tr
       $tr.appendTo body
 
       if file.isDirectory()
@@ -68,6 +68,7 @@ class @Tab
         $tr.click (e) ->
           id = $(@).attr('file-id')
           _this.open(id)
+
 
     true
 
