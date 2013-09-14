@@ -29,7 +29,10 @@ class @GoogleDriveClient extends StorageClient
     )
     request.execute (data) =>
       console.log data
-      $('#user-info').append "GoogleDrive: #{data.name} "
+      $li = $('<li>')
+      $li.append $('<span>').attr('class', 'glyphicon glyphicon-hdd')
+      $li.append $('<span>').text(" GoogleDrive: #{data.name}")
+      $('#user-info').append $li
       fileSystem.addRoot(data.rootFolderId)
       @listFiles(data.rootFolderId)
     $('#form-authorize').hide()
@@ -71,7 +74,10 @@ class @DropboxClient extends StorageClient
         @listFiles('/')
         @client.getAccountInfo (error, userInfo) =>
           return @showError(error) if error
-          $('#user-info').append "Dropbox: #{userInfo.name} "
+          $li = $('<li>')
+          $li.append $('<span>').attr('class', 'glyphicon glyphicon-hdd')
+          $li.append $('<span>').text(" Dropbox: #{userInfo.name}")
+          $('#user-info').append $li
 
   listFiles: (path) ->
     @client.readdir path, (error, entries, dir_stat, entry_stats) =>
