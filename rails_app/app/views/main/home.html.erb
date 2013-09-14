@@ -1,92 +1,3 @@
-<script type="text/javascript">
-  var CLIENT_ID = GOOGLE_DRIVE_CLIENT_ID
-  var SCOPES = GOOGLE_DRIVE_SCOPES
-
-  /**
-  * Called when the client library is loaded to start the auth flow.
-  */
-  function handleClientLoad() {
-    window.setTimeout(checkAuth, 1);
-  }
-
-  /**
-  * Check if the current user has authorized the application.
-  */
-  function checkAuth() {
-    gapi.auth.authorize(
-      {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': true},
-    handleAuthResult);
-  }
-
-  /**
-  * Called when authorization server replies.
-  *
-  * @param {Object} authResult Authorization result.
-  */
-  function handleAuthResult(authResult) {
-    var authButton = document.getElementById('form-authorize');
-    authButton.style.display = 'none';
-    if (authResult && !authResult.error) {
-      // Access token has been successfully retrieved, requests can be sent to the API.
-    } else {
-      // No access token could be retrieved, show the button to start the authorization flow.
-      authButton.style.display = 'block';
-      authButton.onclick = function() {
-        gapi.auth.authorize(
-          {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': false},
-        handleAuthResult);
-      };
-    }
-    listFiles();
-    getUserInfo();
-  }
-
-  /**
-  * Start the file upload.
-  *
-  * @param {Object} evt Arguments from the file selector.
-  */
-  function loadApi(callback) {
-    gapi.client.load('drive', 'v2', function() {
-      callback()
-    });
-  }
-
-  function getUserInfo() {
-    var req = gapi.client.request({
-      'path': '/drive/v2/about',
-      'method': 'GET'
-    });
-    req.execute(function(data) {
-      $('#user-info').append(data.name);
-      console.log(data.user);
-    });
-  }
-
-  function listFiles() {
-    var request = gapi.client.request({
-      'path': '/drive/v2/files',
-      'method': 'GET',
-      'params': {'maxResults': '10'}
-    });    
-    request.execute(function(data) { 
-      console.log(data.items);
-      var tbody = $('#filelist');
-      for(index in data.items) {
-        item = data.items[index];
-        console.log(item);
-        tr = $('<tr>').appendTo(tbody);
-        $('<td>').html(index).appendTo(tr);
-        $('<td>').html(item.mimeType).appendTo(tr);
-        $('<td>').html(item.title).appendTo(tr);
-        $('<td>').html($('<a>').text('Link').attr('href', item.webContentLink)).appendTo(tr);
-        $('<td>').html($('<a>').text('Preview').attr('href', item.alternateLink)).appendTo(tr);
-      }
-    });
-  }
-</script>
-<script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-
 <form id="form-authorize" class="form-authorize">
   <h2 class="form-authorize-heading">Please authorize</h2>
   <button id="btn-authorize" class="btn btn-lg btn-primary btn-block" type="submit">Authorize</button>
@@ -95,7 +6,7 @@
 <div id="user-info">
 </div>
 
-<table class="table table-bordered">
+<table id="explorer" class="table table-bordered">
   <thead>
     <tr>
       <th>#</th>
@@ -105,6 +16,6 @@
       <th>Preview Link</th>
     </tr>
   </thead>
-  <tbody id="filelist">
+  <tbody>
   </tbody>
 </table>
