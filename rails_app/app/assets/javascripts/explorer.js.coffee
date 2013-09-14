@@ -67,14 +67,27 @@ class @Tab
       $tr = $('<tr>').attr('file-id', file.id)
       if file.isDirectory()
         fileLink = '#' + file.id
+        $title = $('<td class="title">').html($('<a>').attr('href', fileLink).html(file.typeIcon()).append(' ' + file.title))
+      else if file.isAudio()
+        musicID = window.fileSystem.getIndex(file.id)
+        $title = $('<td class="title">').html($('<a>').attr({'href': '#music'+musicID, 'data-target': '#music'+musicID, 'data-toggle': 'modal', 'class': 'btn btn-primary btn-lg'}).html(file.typeIcon()).append(' ' + file.title))
+        console.log("Music ID: #{musicID}")
+        console.log("FILE ID: #{file.id}")
+        if(not file.isDirectory() and file.id.indexOf('/') is 0)
+          $('<div class="modal fade" id="music' + musicID + '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-body"><audio controls><source src="' + file.downloadUrl + '" type="audio/mpeg" /></audio> ').appendTo $('body')
+        else
+          $('<div class="modal fade" id="music' + musicID + '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-body"><audio controls><source src="' + file.downloadUrl + '" type="audio/mpeg" /></audio> ').appendTo $('body')
+
       else
         fileLink = file.previewUrl
-      $title = $('<td class="title">').html($('<a>').attr('href', fileLink).html(file.typeIcon()).append(' ' + file.title))
+        $title = $('<td class="title">').html($('<a>').attr('href', fileLink).html(file.typeIcon()).append(' ' + file.title))
       $title.appendTo $tr
-      if(file.downloadUrl)
+
+      console.log(file.downloadUrl)
+      if(file.downloadUrl?)
         $('<td class="downloadurl">').html($('<a>').attr('href', file.downloadUrl).html('<span class="glyphicon glyphicon-cloud-download"></span>')).appendTo $tr
       else if(not file.isDirectory() and file.id.indexOf('/') is 0)
-        $td = $('<td class="downloadurl downloadurl-dropbox">').html($('<a>').attr('href', '#' + file.id).attr('class', 'dropbox-download').html('<span class="glyphicon glyphicon-cloud-download"></span>'))
+        $td = $('<td class="downloadurl downloadurl-dropbox">').html($('<a>').attr('href', file.downloadUrl).attr('class', 'dropbox-download').html('<span class="glyphicon glyphicon-cloud-download"></span>'))
         $td.appendTo $tr
       else $('<td class="downloadurl">').appendTo $tr
       $tr.appendTo body
@@ -85,12 +98,6 @@ class @Tab
         $tr.click (e) ->
           id = $(@).attr('file-id')
           _this.open(id)
-
-    $('.downloadurl-dropbox a').click (e) ->
-      id = $(@).parent().parent().attr('file-id')
-      dropboxClient.getDownloadLink(id)
-      e.preventDefault()
-
     true
 
   render: () ->

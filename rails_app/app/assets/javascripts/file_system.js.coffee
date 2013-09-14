@@ -17,6 +17,9 @@ class @FileSystem
     console.log "fileId: #{fileId}"
     @files[@filesIndex[fileId]]
 
+  getIndex: (fileId) ->
+    @filesIndex[fileId]
+
 class @File
   constructor: (id, parentIds, isRoot, mimeType, title, downloadUrl, previewUrl) ->
     @id = id
@@ -45,6 +48,8 @@ class @File
     @mimeType in ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.google-apps.spreadsheet']
   isForm: () ->
     @mimeType in ['application/vnd.google-apps.form']
+  isImage:() ->
+    @mimeType in ['image/jpeg', 'image/png']
 
   typeIcon: () ->
     glyphicon = '<span class="glyphicon"></span>'
@@ -64,5 +69,7 @@ class @File
       addType 'glyphicon-tasks'
     else if this.isForm()
       addType 'glyphicon-list-alt'
+    else if this.isImage()
+      addType 'glyphicon-picture'
     else
       addType 'glyphicon-question-sign'
