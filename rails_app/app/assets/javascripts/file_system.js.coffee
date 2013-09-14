@@ -24,4 +24,4 @@ class @File
     @previewUrl = previewUrl
 
   isDirectory: () ->
-    @mimeType is 'application/vnd.google-apps.folder'
+    @mimeType in ['application/vnd.google-apps.folder', "inode/directory"]

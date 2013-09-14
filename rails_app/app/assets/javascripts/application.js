@@ -16,7 +16,9 @@
 // require turbolinks
 
 //  Dropbox SDK
-//= require dropbox-datastores-0.1.0-b6
+//= require dropbox.min
+// require dropbox.min.map
+// require dropbox-datastores-0.1.0-b6
 
 //  Cumulus Module
 //= require explorer
@@ -29,4 +31,4 @@
 //walnut.wafflestudio.net:3301
 var GOOGLE_DRIVE_CLIENT_ID = '740796495805.apps.googleusercontent.com';
 var GOOGLE_DRIVE_SCOPES = 'https://www.googleapis.com/auth/drive';
-var DROPBOX_DRIVE_KEY = 'ka8heojsz0ho4is';
+var DROPBOX_DRIVE_KEY = '4s7mj1rlj7xirhj';

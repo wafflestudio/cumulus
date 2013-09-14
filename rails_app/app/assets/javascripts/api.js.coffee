@@ -33,6 +33,7 @@ class @GoogleDriveClient extends StorageClient
       $('#user-info').append data.name
       fileSystem.rootId = data.rootFolderId
       @listFiles(data.rootFolderId)
+    $('#form-authorize').remove()
     
 
   handleAuthResult: (authResult) =>
@@ -61,10 +62,25 @@ class @DropboxClient extends StorageClient
     @client = new Dropbox.Client(key: key)
 
   authorize: () ->
-    @client.authenticate
-      interactive: false
-      , (error) ->
-        alert "Authentication error: " + error  if error
+    @client.authenticate (error, data) =>
+        return console.log error if error
+        $('#form-authorize').remove()
+        @listFiles('/')
+        @client.getAccountInfo (error, userInfo) =>
+          return @showError(error) if error
+          $('#user-info').text userInfo.name
+
+  listFiles: (path) ->
+    @client.readdir path, (error, entries, dir_stat, entry_stats) =>
+      return console.log error if error
+      console.log dir_stat
+      console.log entry_stats
+          
+      for entry in entry_stats
+        file = new File(entry.path, path, true, entry.mimeType, entry.name, null)
+        fileSystem.push(file)
+      explorer.render()
 
   isAuthorized: () ->
     @client.isAuthenticated()
+
