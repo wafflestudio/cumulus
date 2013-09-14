@@ -70,13 +70,16 @@ class @Tab
         $title = $('<td class="title">').html($('<a>').attr('href', fileLink).html(file.typeIcon()).append(' ' + file.title))
       else if file.isAudio()
         musicID = window.fileSystem.getIndex(file.id)
-        $title = $('<td class="title">').html($('<a>').attr({'href': '#music'+musicID, 'data-target': '#music'+musicID, 'data-toggle': 'modal', 'class': 'btn btn-primary btn-lg'}).html(file.typeIcon()).append(' ' + file.title))
+        $title = $('<td class="title">').html($('<a>').attr({'href': '#music'+musicID, 'data-target': '#music'+musicID, 'data-toggle': 'modal'}).html(file.typeIcon()).append(' ' + file.title))
         console.log("Music ID: #{musicID}")
         console.log("FILE ID: #{file.id}")
-        if(not file.isDirectory() and file.id.indexOf('/') is 0)
-          $('<div class="modal fade" id="music' + musicID + '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-body"><audio controls><source src="' + file.downloadUrl + '" type="audio/mpeg" /></audio> ').appendTo $('body')
-        else
-          $('<div class="modal fade" id="music' + musicID + '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-body"><audio controls><source src="' + file.downloadUrl + '" type="audio/mpeg" /></audio> ').appendTo $('body')
+        $('<div class="modal fade" id="music' + musicID + '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">' + file.title + '</h4></div><div class="modal-body"><audio src="' + file.downloadUrl + '" preload ="auto" />').appendTo $('body')
+      else if file.isVideo()
+        videoID = window.fileSystem.getIndex(file.id)
+        $title = $('<td class="title">').html($('<a>').attr({'href': '#video'+videoID, 'data-target': '#video'+videoID, 'data-toggle': 'modal'}).html(file.typeIcon()).append(' ' + file.title))
+        console.log("videoID: #{videoID}")
+        console.log("FILE ID: #{file.id}")
+        $('<div class="modal fade" id="video' + videoID + '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">' + file.title + '</h4></div><div class="modal-body"><video controls width="100%" class="video-js vjs-default-skin" src="' + file.downloadUrl + '" preload ="auto" />').appendTo $('body')
 
       else
         fileLink = file.previewUrl
@@ -86,9 +89,6 @@ class @Tab
       console.log(file.downloadUrl)
       if(file.downloadUrl?)
         $('<td class="downloadurl">').html($('<a>').attr('href', file.downloadUrl).html('<span class="glyphicon glyphicon-cloud-download"></span>')).appendTo $tr
-      else if(not file.isDirectory() and file.id.indexOf('/') is 0)
-        $td = $('<td class="downloadurl downloadurl-dropbox">').html($('<a>').attr('href', file.downloadUrl).attr('class', 'dropbox-download').html('<span class="glyphicon glyphicon-cloud-download"></span>'))
-        $td.appendTo $tr
       else $('<td class="downloadurl">').appendTo $tr
       $tr.appendTo body
 
@@ -104,6 +104,7 @@ class @Tab
     @paths = fileSystem.rootIds if @paths.empty()
     filesInDirectory = []
     files = fileSystem.files
+    $('.modal').remove()
 
     if @parentPaths.empty()
       console.log "enter root directory"
@@ -115,6 +116,12 @@ class @Tab
         console.log intersection(@paths, file.parentIds)
         filesInDirectory.push(file) unless intersection(@paths, file.parentIds).empty()
     @renderDirectory(filesInDirectory)
+    audiojs.events.ready ->
+      as = audiojs.createAll()
+    $(".modal").on "hidden.bs.modal", ->
+      $('.playing').removeClass('playing')
+      $('.playing audio')[0].pause()
+
 
   renderPhoto: () ->
     @path = fileSystem.rootId if @path is null

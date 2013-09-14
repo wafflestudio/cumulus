@@ -31,6 +31,9 @@
 // AudioJS
 //= require audiojs/audio.min
 
+// VideoJS
+//= require videojs/video
+
 //= require GoogleDriveAPI/google-drive-client
 
 //var GOOGLE_DRIVE_CLIENT_ID = '740796495805.apps.googleusercontent.com'; // walnut.wafflestudio.net:3301
@@ -38,3 +41,4 @@
 var GOOGLE_DRIVE_CLIENT_ID = '149164205354.apps.googleusercontent.com'; // localhost:3301 BeomkiLee
 var GOOGLE_DRIVE_SCOPES = 'https://www.googleapis.com/auth/drive';
 var DROPBOX_DRIVE_KEY = '4s7mj1rlj7xirhj';
+
