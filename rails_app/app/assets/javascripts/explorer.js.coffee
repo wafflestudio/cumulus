@@ -99,5 +99,14 @@ class @Tab
       for file in files
         console.log intersection(@paths, file.parentIds)
         filesInDirectory.push(file) unless intersection(@paths, file.parentIds).empty()
+    @renderDirectory(filesInDirectory)
 
+  renderPhoto: () ->
+    @path = fileSystem.rootId if @path is null
+    filesInDirectory = []
+    files = fileSystem.files
+
+    for file in files
+      filesInDirectory.push(file) if file.isPhoto()
+    
     @renderDirectory(filesInDirectory)
