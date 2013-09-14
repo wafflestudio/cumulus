@@ -1,26 +1,25 @@
 class @Explorer
   constructor: () ->
     @tabs = [new Tab(fileSystem.rootIds)]
+    @tabs[0].isFocused = true
 
   currentTab: () ->
     currentTab
     for tab in @tabs
-      currentTab = tab if tab.isFocused()
+      currentTab = tab if tab.isFocused
     currentTab
 
   render: () ->
-    @currentTab().render()
+    @currentTab().renderDirectory()
 
 class @Tab
   constructor: (paths) ->
     @parentPaths = []
     @paths = paths
+    @isFocused = false
 
   body: () ->
     $('#explorer > tbody')
-
-  isFocused: () ->
-    true
 
   isRoot: () ->
     @parentPaths.empty()
@@ -39,15 +38,15 @@ class @Tab
     for path in @paths
       console.log "get file in #{path}"
       dropboxClient.listFiles(path)
-    @render()
+    @renderDirectory()
 
   copy: (from, to) ->
 
   move: (from, to) ->
 
   remove: (fileId) ->
-
-  renderDirectory: (files) ->
+ 
+  displayDirectory: (files) ->
     body = @body()
     body.html ''
 
@@ -100,7 +99,7 @@ class @Tab
           _this.open(id)
     true
 
-  render: () ->
+  renderDirectory: () ->
     @paths = fileSystem.rootIds if @paths.empty()
     filesInDirectory = []
     files = fileSystem.files
@@ -114,7 +113,18 @@ class @Tab
       for file in files
         console.log intersection(@paths, file.parentIds)
         filesInDirectory.push(file) unless intersection(@paths, file.parentIds).empty()
-    @renderDirectory(filesInDirectory)
+    @displayDirectory(filesInDirectory)
+
+  displayPhoto: (files) ->
+    body = @body()
+    body.html ''
+
+    for file in files
+      console.log file
+      fileLink = file.previewUrl
+      $('<img>').attr('src', file.downloadUrl).attr('class', 'img-thumbnail').appendTo $('#photos')
+
+    true
 
   renderPhoto: () ->
     @path = fileSystem.rootId if @path is null
@@ -124,4 +134,4 @@ class @Tab
     for file in files
       filesInDirectory.push(file) if file.isPhoto() and not intersection(@paths, file.parentIds).empty()
     
-    @renderDirectory(filesInDirectory)
+    @displayPhoto(filesInDirectory)
