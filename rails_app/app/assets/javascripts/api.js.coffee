@@ -3,7 +3,6 @@ class @StorageClient
 
 class @GoogleDriveClient extends StorageClient
   constructor: (clientId, scopes) ->
-    super()
     @clientId = clientId
     @scopes = scopes
     console.log "GoogleDrive(#{@clientId}, #{@scopes})"
@@ -19,7 +18,7 @@ class @GoogleDriveClient extends StorageClient
       console.log data.items
       for item in data.items
         item.parents = item.parents.map (parent) -> parent.id
-        file = new File(item.id, item.parents, item.parents.length is 0 or rootFolderId in item.parents, item.mimeType, item.title, item.webContentLink)
+        file = new File(item.id, item.parents, item.parents.length is 0 or rootFolderId in item.parents, item.mimeType, item.title, item.webContentLink, item.alternateLink)
         fileSystem.push(file)
       explorer.render()
 
@@ -39,26 +38,28 @@ class @GoogleDriveClient extends StorageClient
   handleAuthResult: (authResult) =>
     authButton = document.getElementById("btn-authorize")
     authButton.style.display = "none"
-    @getUserInfo()
+    console.log authResult
+    if authResult
+      @getUserInfo()
     unless authResult and not authResult.error
       authButton.style.display = "block"
-      authButton.onclick = ->
+      authButton.onclick = =>
         gapi.auth.authorize
           client_id: @clientId
           scope: @scopes
           immediate: false
         , @handleAuthResult
 
-  checkAuth: () ->
+  checkAuth: () =>
+    console.log @clientId, @scopes
     gapi.auth.authorize
       client_id: @clientId
       scope: @scopes
-      immediate: true
+      immediate: false
     , @handleAuthResult
 
 class @DropboxClient extends StorageClient
   constructor: (key) ->
-    super()
     @client = new Dropbox.Client(key: key)
 
   authorize: () ->
@@ -83,4 +84,3 @@ class @DropboxClient extends StorageClient
 
   isAuthorized: () ->
     @client.isAuthenticated()
-

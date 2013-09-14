@@ -16,9 +16,9 @@
 // require turbolinks
 
 //  Dropbox SDK
-//= require dropbox.min
-// require dropbox.min.map
-// require dropbox-datastores-0.1.0-b6
+//= require DropboxAPI/dropbox.min
+// require DropboxAPI/dropbox.min.map
+// require DropboxAPI/dropbox-datastores-0.1.0-b6
 
 //  Cumulus Module
 //= require explorer
@@ -26,11 +26,10 @@
 //= require api
 //= require main
 
-//= require google-drive-client
+//= require GoogleDriveAPI/google-drive-client
 
-//walnut.wafflestudio.net:3301
-//var GOOGLE_DRIVE_CLIENT_ID = '740796495805.apps.googleusercontent.com';
-//walnut.wafflestudio.net:4333
-var GOOGLE_DRIVE_CLIENT_ID = '149164205354.apps.googleusercontent.com';
+//var GOOGLE_DRIVE_CLIENT_ID = '740796495805.apps.googleusercontent.com'; // walnut.wafflestudio.net:3301
+//var GOOGLE_DRIVE_CLIENT_ID = '270869421562-7sl56ng8484v5s93adk5rugt5rh5tjup.apps.googleusercontent.com'; // localhost:3301 TaekminKim
+var GOOGLE_DRIVE_CLIENT_ID = '149164205354.apps.googleusercontent.com'; // localhost:3301 BeomkiLee
 var GOOGLE_DRIVE_SCOPES = 'https://www.googleapis.com/auth/drive';
 var DROPBOX_DRIVE_KEY = '4s7mj1rlj7xirhj';
