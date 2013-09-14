@@ -4,3 +4,21 @@
 require File.expand_path('../config/application', __FILE__)
 
 RailsApp::Application.load_tasks
+
+task :build do
+	`mv index.html index.html.1`
+	`thin stop -e production`
+	`bundle exec rake assets:precompile`
+	`thin start -e production -p 3302 -d`
+	sleep(5)
+	`wget localhost:3302`
+	#`sed -i '' 's/\\/assets/.\\/assets/g' index.html`
+    `rm ../chrome_app/index.html`
+    `rm -rf ../chrome_app/assets`
+    `cp index.html ../chrome_app/`
+    `cp -r public/assets ../chrome_app/`
+    `cp app/assets/javascripts/DropboxAPI/dropbox.min.map ../chrome_app/assets`
+    `mkdir -p ../chrome_app/assets/twitter/bootstrap`
+    `cp public/twitter/* ../chrome_app/assets/twitter/bootstrap`
+	puts "Let's build"
+end

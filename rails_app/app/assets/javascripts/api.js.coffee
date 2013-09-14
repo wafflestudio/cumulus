@@ -5,6 +5,7 @@ class @GoogleDriveClient extends StorageClient
   constructor: (clientId, scopes) ->
     @clientId = clientId
     @scopes = scopes
+    gapi.client.setApiKey('AIzaSyAH5BivYV9VBWBrIuyXUfaMt2rY0c5bEpg');
     console.log "GoogleDrive(#{@clientId}, #{@scopes})"
 
   listFiles: (rootFolderId) ->
