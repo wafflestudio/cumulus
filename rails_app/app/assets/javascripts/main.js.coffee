@@ -7,7 +7,7 @@ window.handleClientLoad = () ->
 
 window.dropboxClient = new DropboxClient(DROPBOX_DRIVE_KEY)
 dropboxClient.authorize()
-  
+
 $ ->
   $('#photo-album').click ->
     if $('#photo-album').html() is "Photo Album"

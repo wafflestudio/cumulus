@@ -115,6 +115,6 @@ class @Tab
     files = fileSystem.files
 
     for file in files
-      filesInDirectory.push(file) if file.isPhoto()
+      filesInDirectory.push(file) if file.isPhoto() and not intersection(@paths, file.parentIds).empty()
     
     @renderDirectory(filesInDirectory)

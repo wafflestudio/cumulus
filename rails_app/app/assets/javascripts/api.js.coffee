@@ -35,16 +35,16 @@ class @GoogleDriveClient extends StorageClient
       $('#user-info').append $li
       fileSystem.addRoot(data.rootFolderId)
       @listFiles(data.rootFolderId)
-    $('#form-authorize').hide()
+    #$('#form-authorize').hide()
 
   handleAuthResult: (authResult) =>
     authButton = document.getElementById("btn-authorize")
-    authButton.style.display = "none"
+    $('#form-authorize').hide()
     console.log authResult
     if authResult
       @getUserInfo()
     unless authResult and not authResult.error
-      authButton.style.display = "block"
+      $('#form-authorize').show()
       authButton.onclick = =>
         gapi.auth.authorize
           client_id: @clientId
@@ -68,7 +68,7 @@ class @DropboxClient extends StorageClient
     @client.authenticate (error, data) =>
         return console.log error if error
         console.log data
-        $('#form-authorize').hide()
+        #$('#form-authorize').hide()
         fileSystem.addRoot("/")
         @listFiles('/')
         @client.getAccountInfo (error, userInfo) =>
