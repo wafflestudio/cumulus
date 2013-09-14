@@ -11,11 +11,10 @@ class @Explorer
   render: () ->
     @currentTab().render()
 
-
 class @Tab
-  constructor: (path) ->
-    @parentPath = null
-    @path = path
+  constructor: (paths) ->
+    @parentPaths = []
+    @paths = paths
 
   body: () ->
     $('#explorer > tbody')
@@ -24,13 +23,22 @@ class @Tab
     true
 
   isRoot: () ->
-    @parentPath is null
+    @parentPaths.empty()
 
-  open: (fileId) ->
-    console.log "enter #{fileId}"
-    @parentPath = @path
-    @path = fileId
-    @parentPath = null if @path is fileSystem.rootId
+  open: (fileIds) ->
+    console.log "enter #{fileIds}"
+    @parentPaths = @paths
+    if fileIds instanceof Array
+      @paths = fileIds 
+    else
+      @paths = [fileIds]
+    unless intersection(@paths, fileSystem.rootIds).empty()
+      console.log "Path is root dir" 
+      @parentPaths = []
+
+    for path in @paths
+      console.log "get file in #{path}"
+      dropboxClient.listFiles(path)
     @render()
 
   copy: (from, to) ->
@@ -44,14 +52,19 @@ class @Tab
     body.html ''
 
     if not @isRoot()
-      $tr = $('<tr>').attr('file-id', @parentPath)
+      $tr = $('<tr>').attr('file-id', @parentPaths[0])
       $('<td>').html("").appendTo $tr
       $('<td>').html("").appendTo $tr
-      $title = $('<td>').html($('<a>').attr('href', '#' + @parentPath).text(".."))
+      $title = $('<td>').html($('<a>').attr('href', '#' + @parentPaths[0]).text(".."))
       $title.appendTo $tr
       $('<td>').html("").appendTo $tr
       $('<td>').html("").appendTo $tr
       $tr.appendTo body
+
+      _this = @
+      $tr.click (e) ->
+        id = $(@).attr('file-id')
+        _this.open(id)
 
     for file in files
       $tr = $('<tr>').attr('file-id', file.id)
@@ -72,15 +85,18 @@ class @Tab
     true
 
   render: () ->
-    @path = fileSystem.rootId if @path is null
+    @paths = fileSystem.rootIds if @paths.empty()
     filesInDirectory = []
     files = fileSystem.files
 
-    if not @parentPath
+    if @parentPaths.empty()
+      console.log "enter root directory"
       for file in files
         filesInDirectory.push(file) if file.isRoot
     else
+      console.log "enter none root directory"
       for file in files
-        filesInDirectory.push(file) if @path in file.parentIds
+        console.log intersection(@paths, file.parentIds)
+        filesInDirectory.push(file) unless intersection(@paths, file.parentIds).empty()
 
     @renderDirectory(filesInDirectory)
