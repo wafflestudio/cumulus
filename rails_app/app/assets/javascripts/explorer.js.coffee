@@ -63,10 +63,11 @@ class @Tab
       $('<td>').html($('<a>').attr('href', file.previewUrl).text('Preview')).appendTo $tr
       $tr.appendTo body
 
-    _this = @
-    $('tbody > tr').click (e) ->
-      id = $(@).attr('file-id')
-      _this.open(id)
+      if file.isDirectory()
+        _this = @
+        $tr.click (e) ->
+          id = $(@).attr('file-id')
+          _this.open(id)
 
     true
 
