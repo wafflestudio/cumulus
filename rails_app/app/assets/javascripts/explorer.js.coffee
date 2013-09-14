@@ -74,7 +74,7 @@ class @Tab
       if(file.downloadUrl)
         $('<td class="downloadurl">').html($('<a>').attr('href', file.downloadUrl).html('<span class="glyphicon glyphicon-cloud-download"></span>')).appendTo $tr
       else if(not file.isDirectory() and file.id.indexOf('/') is 0)
-        $td = $('<td class="downloadurl downloadurl-dropbox">').html($('<a>').attr('href', '#' + file.id).attr('class', 'dropbox-download').html('<span class="glyphicon glyphicon-cloud-download"></span>'))
+        $td = $('<td class="downloadurl downloadurl-dropbox">').html($('<a>').attr('href', dropboxClient.getDownloadLink(file.id)).attr('class', 'dropbox-download').html('<span class="glyphicon glyphicon-cloud-download"></span>'))
         $td.appendTo $tr
       else $('<td class="downloadurl">').appendTo $tr
       $tr.appendTo body
@@ -85,12 +85,6 @@ class @Tab
         $tr.click (e) ->
           id = $(@).attr('file-id')
           _this.open(id)
-
-    $('.downloadurl-dropbox a').click (e) ->
-      id = $(@).parent().parent().attr('file-id')
-      dropboxClient.getDownloadLink(id)
-      e.preventDefault()
-
     true
 
   render: () ->

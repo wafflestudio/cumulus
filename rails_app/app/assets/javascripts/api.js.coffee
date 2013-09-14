@@ -82,7 +82,9 @@ class @DropboxClient extends StorageClient
     @client.makeUrl path, {download: true}, (error, data) =>
       return console.log error if error
       console.log data.url
-      alert "api.js.coffee#84 #{data.url}"
+      @url = data.url
+
+    return @url
 
   listFiles: (path) ->
     @client.readdir path, (error, entries, dir_stat, entry_stats) =>
