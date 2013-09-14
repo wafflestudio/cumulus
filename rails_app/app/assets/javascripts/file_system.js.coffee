@@ -48,8 +48,10 @@ class @File
     @mimeType in ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.google-apps.spreadsheet']
   isForm: () ->
     @mimeType in ['application/vnd.google-apps.form']
-  isImage:() ->
+  isImage: () ->
     @mimeType in ['image/jpeg', 'image/png']
+  isVideo: () ->
+    @mimeType in ['video/mp4']
 
   typeIcon: () ->
     glyphicon = '<span class="glyphicon"></span>'
@@ -71,5 +73,7 @@ class @File
       addType 'glyphicon-list-alt'
     else if this.isImage()
       addType 'glyphicon-picture'
+    else if this.isVideo()
+      addType 'glyphicon-film'
     else
       addType 'glyphicon-question-sign'
