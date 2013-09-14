@@ -83,5 +83,14 @@ class @Tab
     else
       for file in files
         filesInDirectory.push(file) if @path in file.parentIds
+    @renderDirectory(filesInDirectory)
 
+  renderPhoto: () ->
+    @path = fileSystem.rootId if @path is null
+    filesInDirectory = []
+    files = fileSystem.files
+
+    for file in files
+      filesInDirectory.push(file) if file.isPhoto()
+    
     @renderDirectory(filesInDirectory)

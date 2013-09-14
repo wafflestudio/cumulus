@@ -31,6 +31,8 @@ class @File
     @mimeType in ['application/vnd.google-apps.folder', "inode/directory"]
   isAudio: () ->
     @mimeType in ['audio/mpeg']
+  isPhoto: () ->
+    @mimeType in ['image/jpeg', 'image/pjpeg', 'image/png']
   isArchive: () ->
     @mimeType in ['application/xzip']
   isDocument: () ->
