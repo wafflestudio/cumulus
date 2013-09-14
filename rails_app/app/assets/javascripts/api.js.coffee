@@ -78,13 +78,14 @@ class @DropboxClient extends StorageClient
           $li.append $('<span>').text(" Dropbox: #{userInfo.name}")
           $('#user-info').append $li
 
-  getDownloadLink: (path) =>
+  setDownloadLink: (path) =>
     @client.makeUrl path, {download: true}, (error, data) =>
       return console.log error if error
       console.log data.url
-      @url = data.url
-
-    return @url
+      console.log "File Added: #{data.url}"
+      window.fileSystem.getFile(path).downloadUrl = data.url
+      console.log "Url1: #{data.url}"
+      console.log "Url2: #{fileSystem.getFile(path).downloadUrl}"
 
   listFiles: (path) ->
     @client.readdir path, (error, entries, dir_stat, entry_stats) =>
@@ -103,6 +104,7 @@ class @DropboxClient extends StorageClient
       for entry in entry_stats
         file = new File(entry.path, path, path is "/", entry.mimeType, entry.name, null)
         fileSystem.push(file)
+        this.setDownloadLink(file.id)
 
       explorer.render()
 

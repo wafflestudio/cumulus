@@ -14,6 +14,7 @@
 //= require jquery
 //= require jquery_ujs
 // require turbolinks
+//= require twitter/bootstrap
 
 //  Dropbox SDK
 //= require DropboxAPI/dropbox.min
@@ -26,6 +27,9 @@
 //= require file_system
 //= require api
 //= require main
+
+// AudioJS
+//= require audiojs/audio.min
 
 //= require GoogleDriveAPI/google-drive-client
 
