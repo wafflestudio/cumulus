@@ -52,8 +52,8 @@ class @Tab
     body.html ''
 
     if not @isRoot()
-      $tr = $('<tr>').attr('file-id', @parentPath)
-      $title = $('<td>').html($('<a>').attr('href', '#' + @parentPath).text(".."))
+      $tr = $('<tr>').attr('file-id', @parentPaths[0])
+      $title = $('<td>').html($('<a>').attr('href', '#' + @parentPaths[0]).text(".."))
       $title.appendTo $tr
       $('<td>').html("").appendTo $tr
       $tr.appendTo body
